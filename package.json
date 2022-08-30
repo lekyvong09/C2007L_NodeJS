@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/lekyvong09/C2007L_NodeJS/issues"
   },
-  "homepage": "https://github.com/lekyvong09/C2007L_NodeJS#readme"
+  "homepage": "https://github.com/lekyvong09/C2007L_NodeJS#readme",
+  "dependencies": {
+    "nodemon": "^2.0.19"
+  }
 }

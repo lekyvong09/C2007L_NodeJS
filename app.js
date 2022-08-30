@@ -1,9 +1,25 @@
-const http = require('http');
-const routes = require('./route');
+const express = require('express');
+const bodyParser = require('body-parser');
 
-const server = http.createServer((req, res) => {
-    routes.handler(req, res);
+const app = express();
+
+/**
+ * filter / middleware / interceptor
+ */
+app.use(bodyParser.urlencoded({extended: false}));
+
+app.use('/add-product', (req, res, next) => {
+    res.send('<form action="/product" method="POST"><input type="text" name="title"/><button type="submit">Add Product</button></form>');
+});
+
+app.use('/product', (req, res, next) => {
+    console.log(req.body.title);
+    res.redirect('/');
+});
+
+app.use('/', (req, res, next) => {
+    res.send('<h1>Hello from express</h1>');
 });
 
 
-server.listen(3001);
+app.listen(3001);

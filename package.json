@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/lekyvong09/C2007L_NodeJS#readme",
   "dependencies": {
+    "express": "^4.18.1",
     "nodemon": "^2.0.19"
   }
 }

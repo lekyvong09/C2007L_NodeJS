@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title><%= pageTitle %></title>
     <link rel="stylesheet" href="/css/bootstrap.min.css">
 </head>
 <body class="d-flex flex-column vh-100">
@@ -39,9 +39,12 @@
         </nav>
     </header>
     <main class="d-flex flex-grow-1 container flex-column">
-        <h1>My product</h1>
-        <p>List of product</p>
+        <form action="/admin/product" method="POST" class="w-100 m-auto" style="max-width: 330px;">
+            <input type="text" name="title" class="form-control mb-3">
+            <button type="submit" class="btn btn-primary w-100">Add Product</button>
+        </form>
     </main>
+
     <script src="/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

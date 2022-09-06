@@ -5,8 +5,12 @@ const adminData = require('./admin');
 
 
 router.get('/', (req, res, next) => {
-    console.log('in shop.js', adminData.products);
-    res.render('shop', { pageTitle: 'Shop' });
+    // console.log('in shop.js', adminData.products);
+    res.render('shop', {
+        pageTitle: 'Shop',
+        products: adminData.products,
+        path: '/'
+    });
 });
 
 

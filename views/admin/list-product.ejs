@@ -2,7 +2,33 @@
 </head>
     <%- include('../includes/navigation.ejs') %> 
 <body>
-    <main class="flex-grow-1 d-flex container">
-        <h1 class="m-auto">list product</h1>
+    <main class="d-flex flex-grow-1 container flex-column">
+        
+        <% if (typeof products !== 'undefined' && products.length > 0) { %> 
+            <div class="container">
+                <div class="row">
+
+                    <% for (let product of products) { %> 
+                        <div class="col-xl-3 col-md-4 col-sm-6 col-xs-12 py-3 px-2">
+                            <article class="card shadow">
+                                <div class="card-header d-flex justify-content-center"><%= product.title %> </div>
+                                <img class="card-img-top" src="/<%= product.imageUrl %> " alt="<%= product.title %>">
+                                <div class="card-body">
+                                    <h5 class="card-title"><%= product.price %> </h5>
+                                    <p class="card-text d-inline-block text-truncate" style="max-width: 98%; max-height: 48px;">
+                                        <%= product.description %>     
+                                    </p>
+                                    <a href="#" class="btn btn-primary" style="display: block;">Add to cart</a>
+                                </div>
+                            </article>
+                        </div>
+                    <% } %> 
+
+                </div>
+            </div>
+        <% } else { %> 
+            <h1>No product found</h1>
+        <% } %>
+
     </main>
     <%- include('../includes/end.ejs') %> 

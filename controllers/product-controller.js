@@ -9,16 +9,29 @@ exports.showAddProductForm = (req, res, next) => {
 
 
 exports.insertNewProduct = (req, res, next) => {
-    const product = new Product(req.body.title);
+    const image = req.file;
+    if (!image) {
+        res.redirect('admin/add-product');
+        return;
+    }
+
+    const imageUrl = image.path;
+    const title = req.body.title;
+    const price = req.body.price;
+    const description = req.body.description;
+    const product = new Product(title, imageUrl, description, price);
+    console.log(product);
     product.save();
     res.redirect('/');
 }
 
 
 exports.listProduct = (req, res, next) => {
+    const products = Product.fetchAll();
     res.render('admin/list-product', {
         pageTitle: 'List Product',
-        path: '/admin/list-product'
+        path: '/admin/list-product',
+        products: products
     });
 }
 

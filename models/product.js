@@ -1,4 +1,5 @@
 let products = [];
+const connectionPool = require('../util/database');
 
 module.exports = class Product {
     constructor(id, title, imageUrl, description, price) {
@@ -10,16 +11,7 @@ module.exports = class Product {
     }
 
     save() {
-        if (this.id) {
-            /// update
-            const existingProductIndex = products.findIndex(product => product.id === this.id);
-            const updatedProducts = [...products];
-            updatedProducts[existingProductIndex] = {...this};
-            products = updatedProducts;
-        } else {
-            this.id = Math.random();
-            products.push(this);
-        }
+        return connectionPool.execute('insert into products (title, price, description, imageUrl) values (?, ?, ?, ?)', [this.title, this.price, this.description, this.imageUrl]);
     }
 
     static delete(id) {
@@ -30,10 +22,10 @@ module.exports = class Product {
     }
 
     static findById(id) {
-        return products.find(i => i.id === +id);
+        return connectionPool.execute(`select * from products where id =${id}`);
     }
 
     static fetchAll() {
-        return products;
+        return connectionPool.execute('select * from products');
     }
 }

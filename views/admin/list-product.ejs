@@ -20,6 +20,10 @@
                                     </p>
                                 </div>
                                 <div class="card-footer">
+                                    <form action="/admin/delete-product" method="post">
+                                        <input type="hidden" name="productId" value="<%= product.id %>">
+                                        <button class="btn btn-primary" type="submit" style="width: 100px;">Delete</button>
+                                    </form>
                                     <a href="/admin/edit-product/<%= product.id %>" class="btn btn-primary" style="width: 100px;">Edit</a>
                                 </div>
                             </article>

@@ -22,6 +22,13 @@ module.exports = class Product {
         }
     }
 
+    static delete(id) {
+        var index = products.findIndex(i => i.id === +id);
+        if (index > -1) {
+            products.splice(index, 1);
+        }
+    }
+
     static findById(id) {
         return products.find(i => i.id === +id);
     }

@@ -64,3 +64,8 @@ exports.updateProduct = (req, res, next) => {
     product.save();
     res.redirect('/admin/list-product');
 }
+
+exports.deleteProduct = (req, res, next) => {
+    Product.delete(req.body.productId);
+    res.redirect('/admin/list-product');
+}

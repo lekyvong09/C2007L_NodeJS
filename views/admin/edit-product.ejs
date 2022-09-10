@@ -3,6 +3,23 @@
     <%- include('../includes/navigation.ejs') %> 
 <body>
     <main class="flex-grow-1 d-flex container">
-        <h1 class="m-auto">edit product</h1>
+        <form action="/admin/product" method="POST" enctype="multipart/form-data" class="w-100 m-auto" style="max-width: 330px;">
+            <div class="form-floating mb-3">
+                <input type="text" name="title" value="<%= product.title %>" class="form-control" id="product-title" placeholder="title">
+                <label for="product-title">Title</label>
+            </div>
+            <div class="form-floating mb-3">
+                <input type="number" step="0.01" name="price" value="<%= product.price %>" class="form-control" id="product-price" placeholder="price">
+                <label for="product-price">Price</label>
+            </div>
+            <div class="form-floating mb-3">
+                <textarea type="text" name="description" class="form-control" id="product-description" placeholder="description"><%= product.description %></textarea>
+                <label for="product-description">Description</label>
+            </div>
+
+            <input type="file" name="image" class="form-control mb-3" style="line-height: 44px;">
+
+            <button type="submit" class="btn btn-primary w-100">Update Product</button>
+        </form>
     </main>
     <%- include('../includes/end.ejs') %> 

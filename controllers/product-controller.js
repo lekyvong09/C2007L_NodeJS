@@ -36,9 +36,14 @@ exports.listProduct = (req, res, next) => {
 }
 
 exports.showEditProductForm = (req, res, next) => {
+    const productId = req.params.productId;
+    console.log(productId);
+    let product = Product.findById(productId);
+    // console.log(product);
     res.render('admin/edit-product', {
         pageTitle: 'Edit Product',
-        path: '/admin/edit-product'
+        path: '/admin/edit-product',
+        product: product
     });
 }
 

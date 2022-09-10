@@ -9,7 +9,12 @@ module.exports = class Product {
     }
 
     save() {
+        this.id = Math.random();
         products.push(this);
+    }
+
+    static findById(id) {
+        return products.find(i => i.id === +id);
     }
 
     static fetchAll() {

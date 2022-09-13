@@ -3,12 +3,12 @@ const Product = require('../models/product');
 
 exports.getProductList = (req, res, next) => {
     // console.log('in shop.js', adminData.products);
-    const products = Product.fetchAll()
-        .then(([rows, fieldData]) => {
-            // console.log(data);
+    Product.findAll()
+        .then((result) => {
+            // console.log(result);
             res.render('shop/product-list', {
                 pageTitle: 'Shop',
-                products: rows,
+                products: result,
                 path: '/'
             });
         });

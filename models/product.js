@@ -1,31 +1,26 @@
-let products = [];
-const connectionPool = require('../util/database');
+const Sequelize = require('sequelize');
+const sequelize = require('../util/database');
 
-module.exports = class Product {
-    constructor(id, title, imageUrl, description, price) {
-        this.id = id;
-        this.title = title;
-        this.imageUrl = imageUrl;
-        this.description = description;
-        this.price = price;
-    }
+const Product = sequelize.define('product', {
+    id: {
+        type: Sequelize.INTEGER,
+        autoIncrement: true,
+        allowNull: false,
+        primaryKey: true
+    },
+    title: {
+        type: Sequelize.STRING,
+        allowNull: false,
+    },
+    price: {
+        type: Sequelize.DECIMAL(13,2),
+        allowNull: false,
+    },
+    imageUrl: {
+        type: Sequelize.STRING,
+        allowNull: false,
+    },
+    description: Sequelize.STRING
+});
 
-    save() {
-        return connectionPool.execute('insert into products (title, price, description, imageUrl) values (?, ?, ?, ?)', [this.title, this.price, this.description, this.imageUrl]);
-    }
-
-    static delete(id) {
-        var index = products.findIndex(i => i.id === +id);
-        if (index > -1) {
-            products.splice(index, 1);
-        }
-    }
-
-    static findById(id) {
-        return connectionPool.execute(`select * from products where id =${id}`);
-    }
-
-    static fetchAll() {
-        return connectionPool.execute('select * from products');
-    }
-}
+module.exports = Product;

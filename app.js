@@ -6,6 +6,7 @@ const multer = require('multer');
 
 const adminRoutes = require('./routes/admin');
 const shopRoutes = require('./routes/shop');
+const sequelize = require('./util/database');
 
 const app = express();
 
@@ -46,4 +47,8 @@ app.use(shopRoutes);
 
 app.use(exceptionController.handle404);
 
-app.listen(3001);
+sequelize.sync()
+    .then(result => {
+        app.listen(3001);
+    })
+    .catch(err => console.log(err));

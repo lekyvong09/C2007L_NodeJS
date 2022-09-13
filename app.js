@@ -6,7 +6,7 @@ const multer = require('multer');
 
 const adminRoutes = require('./routes/admin');
 const shopRoutes = require('./routes/shop');
-const sequelize = require('./util/database');
+const mongoConnect = require('./util/database').mongoConnect;
 
 const app = express();
 
@@ -47,8 +47,6 @@ app.use(shopRoutes);
 
 app.use(exceptionController.handle404);
 
-sequelize.sync()
-    .then(result => {
-        app.listen(3001);
-    })
-    .catch(err => console.log(err));
+mongoConnect(() => {
+    app.listen(3001);
+});

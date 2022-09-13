@@ -3,7 +3,7 @@ const Product = require('../models/product');
 
 exports.getProductList = (req, res, next) => {
     // console.log('in shop.js', adminData.products);
-    Product.findAll()
+    Product.fetchAll()
         .then((result) => {
             // console.log(result);
             res.render('shop/product-list', {
@@ -11,7 +11,8 @@ exports.getProductList = (req, res, next) => {
                 products: result,
                 path: '/'
             });
-        });
+        })
+        .catch(err => console.log(err));
 }
 
 

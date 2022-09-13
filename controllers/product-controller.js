@@ -20,22 +20,15 @@ exports.insertNewProduct = (req, res, next) => {
     const price = req.body.price;
     const description = req.body.description;
 
-    Product.create({
-        title: title,
-        price: price,
-        imageUrl: imageUrl,
-        description: description
-    })
-    .then(result => {
-        // console.log(result);
-        res.redirect('/admin/list-product');
-    })
-    .catch(err => console.log(err));
+    const product = new Product(title, price, description, imageUrl);
+    product.save()
+        .then(result => res.redirect('/admin/list-product'))
+        .catch(err => console.log(err));
 }
 
 
 exports.listProduct = (req, res, next) => {
-    Product.findAll()
+    Product.fetchAll()
         .then((result) => {
             // console.log(data);
             res.render('admin/list-product', {
@@ -43,7 +36,8 @@ exports.listProduct = (req, res, next) => {
                 path: '/admin/list-product',
                 products: result
             });
-        });
+        })
+        .catch(err => console.log(err));
 }
 
 exports.showEditProductForm = (req, res, next) => {

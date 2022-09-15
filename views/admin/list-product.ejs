@@ -19,12 +19,12 @@
                                         <%= product.description %>     
                                     </p>
                                 </div>
-                                <div class="card-footer">
+                                <div class="card-footer d-flex justify-content-between">
                                     <form action="/admin/delete-product" method="post">
-                                        <input type="hidden" name="productId" value="<%= product.id %>">
+                                        <input type="hidden" name="productId" value="<%= product._id %>">
                                         <button class="btn btn-primary" type="submit" style="width: 100px;">Delete</button>
                                     </form>
-                                    <a href="/admin/edit-product/<%= product.id %>" class="btn btn-primary" style="width: 100px;">Edit</a>
+                                    <a href="/admin/edit-product/<%= product._id %>" class="btn btn-primary" style="width: 100px;">Edit</a>
                                 </div>
                             </article>
                         </div>

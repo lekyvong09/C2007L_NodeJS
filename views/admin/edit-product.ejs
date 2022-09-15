@@ -4,7 +4,7 @@
 <body>
     <main class="flex-grow-1 d-flex container">
         <form action="/admin/edit-product" method="POST" enctype="multipart/form-data" class="w-100 m-auto" style="max-width: 330px;">
-            <input type="hidden" name="productId" value="<%= product.id %>">
+            <input type="hidden" name="productId" value="<%= product._id %>">
             <input type="hidden" name="imageUrl" value="<%= product.imageUrl %>">
 
             <div class="form-floating mb-3">

@@ -3,6 +3,7 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const exceptionController = require('./controllers/exception-controller');
 const multer = require('multer');
+const User = require('./models/user');
 
 const adminRoutes = require('./routes/admin');
 const shopRoutes = require('./routes/shop');
@@ -40,6 +41,16 @@ app.use(multer({storage: fileStorage, fileFilter: fileFilter}).single('image'));
 app.use('/css', express.static(path.join(__dirname, 'node_modules', 'bootstrap', 'dist', 'css')));
 app.use('/js', express.static(path.join(__dirname, 'node_modules', 'bootstrap', 'dist', 'js')));
 app.use('/images', express.static(path.join(__dirname, 'images')));
+
+app.use((req, res, next) => {
+    /// simulate loading user info after logging in
+    User.findById("63232bfe27284869fd910f5f")
+        .then(user => {
+            req.user = new User(user._id, user.name, user.email, user.cart);
+            next();
+        })
+        .catch(err => console.log(err));
+});
 
 app.use('/admin', adminRoutes);
 

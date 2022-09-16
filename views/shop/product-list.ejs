@@ -18,7 +18,10 @@
                                     <p class="card-text d-inline-block text-truncate" style="max-width: 98%; max-height: 48px;">
                                         <%= product.description %>     
                                     </p>
-                                    <a href="#" class="btn btn-primary" style="display: block;">Add to cart</a>
+                                    <form action="/cart" method="post">
+                                        <input type="hidden" name="productId" value="<%= product._id %>" />
+                                        <button class="btn btn-primary" type="submit" style="width: 100px;">Add to cart</button>
+                                    </form>
                                 </div>
                             </article>
                         </div>

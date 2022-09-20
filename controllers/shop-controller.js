@@ -16,10 +16,12 @@ exports.getProductList = (req, res, next) => {
 }
 
 exports.checkout = (req, res, next) => {
-    res.render('shop/checkout', {
-        pageTitle: 'checkout',
-        path: '/checkout'
-    });
+    req.user.checkout()
+        .then(result => res.redirect('/order'));
+}
+
+exports.order = (req, res, next) => {
+    res.render('shop/order', {pageTitle: 'order'});
 }
 
 exports.addItemToCart = (req, res, next) => {

@@ -11,8 +11,22 @@ class User {
 
     addToCart(product) {
         const db = getDb();
-        const updatedCart = {items: [{...product, quantity: 1}]};
-        console.log(updatedCart);
+        const updatedCartItems = [...this.cart.items];
+        const indexExistingCartItem = this.cart.items.findIndex(item => item.productId.toString() === product._id.toString());
+        let newQuantity = 1;
+
+        if (indexExistingCartItem != -1) {
+            newQuantity = this.cart.items[indexExistingCartItem].quantity + 1;
+            updatedCartItems[indexExistingCartItem].quantity = newQuantity;
+        } else {
+            updatedCartItems.push({
+                productId: new mongodb.ObjectId(product._id),
+                quantity: newQuantity
+            });
+        }
+
+        const updatedCart = {items: updatedCartItems};
+        // console.log(updatedCart);
         return db.collection('users').updateOne(
             /// condition where
             {_id: new mongodb.ObjectId(this._id)},
@@ -27,6 +41,35 @@ class User {
             .insertOne(this)
             .then(result => console.log(result))
             .catch(err => console.log(err));
+    }
+
+    getCart() {
+        const db = getDb();
+        const arrayOfProductId = this.cart.items.map(i => i.productId);
+        // console.log(arrayOfProductId);
+
+        return db.collection('products')
+            .find({_id: {$in: arrayOfProductId}})
+            .toArray()
+            .then(
+                products => {
+                    // console.log(products);
+                    return products.map(product => {
+                        let cartItem = this.cart.items.find(i => i.productId.toString() === product._id.toString());
+                        return {...product, quantity: cartItem.quantity};
+                    });
+                }
+            )
+    }
+
+    deleteItemFromCart(productId) {
+        const db = getDb();
+        const updatedCartItems = this.cart.items.filter(item => item.productId.toString() !== productId);
+        console.log(updatedCartItems);
+        return db.collection('users').updateOne(
+            {_id: new mongodb.ObjectId(this._id)},
+            {$set: {cart: { items: updatedCartItems}}}
+        );
     }
 
     static findById(userId) {

@@ -41,10 +41,11 @@ app.use(multer({storage: fileStorage, fileFilter: fileFilter}).single('image'));
 app.use('/css', express.static(path.join(__dirname, 'node_modules', 'bootstrap', 'dist', 'css')));
 app.use('/js', express.static(path.join(__dirname, 'node_modules', 'bootstrap', 'dist', 'js')));
 app.use('/images', express.static(path.join(__dirname, 'images')));
+app.use('/css', express.static(path.join(__dirname, 'public', 'css')));
 
 app.use((req, res, next) => {
     /// simulate loading user info after logging in
-    User.findById("63232bfe27284869fd910f5f")
+    User.findById("6325cde0d260b4803b4194c8")
         .then(user => {
             req.user = new User(user._id, user.name, user.email, user.cart);
             next();

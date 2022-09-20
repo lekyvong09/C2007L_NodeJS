@@ -15,14 +15,6 @@ exports.getProductList = (req, res, next) => {
         .catch(err => console.log(err));
 }
 
-
-exports.shoppingCart = (req, res, next) => {
-    res.render('shop/cart', {
-        pageTitle: 'Cart',
-        path: '/cart'
-    });
-}
-
 exports.checkout = (req, res, next) => {
     res.render('shop/checkout', {
         pageTitle: 'checkout',
@@ -34,9 +26,33 @@ exports.addItemToCart = (req, res, next) => {
     const productId = req.body.productId;
     Product.findById(productId)
         .then(product => {
-            console.log(req.user);
+            // console.log(req.user);
             return req.user.addToCart(product);
         })
-        .then(result => console.log(result))
+        .then(result => {
+            console.log(result);
+            res.redirect('/');
+        })
+        .catch(err => console.log(err));
+}
+
+exports.displayShoppingCart = (req, res, next) => {
+    // console.log(req.user);
+    req.user.getCart()
+        .then(result => {
+            // console.log(result);
+            res.render('shop/cart', {
+                pageTitle: 'cart',
+                cartItems: result
+            });
+        });
+}
+
+
+exports.deleteCartItem = (req, res, next) => {
+    const productId = req.body.productId;
+    console.log(productId);
+    req.user.deleteItemFromCart(productId)
+        .then(result => res.redirect('/cart'))
         .catch(err => console.log(err));
 }

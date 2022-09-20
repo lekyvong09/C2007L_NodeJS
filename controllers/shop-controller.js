@@ -21,7 +21,20 @@ exports.checkout = (req, res, next) => {
 }
 
 exports.order = (req, res, next) => {
-    res.render('shop/order', {pageTitle: 'order'});
+    req.user.getOrders()
+        .then(orders => {
+            const transformedOrders = orders.map(order => ({
+                _id: order._id,
+                items: order.items,
+                user: order.user,
+                total: order.items.reduce((sum, item) => sum + +item.price*item.quantity, 0)
+            }));
+            res.render('shop/order', {
+                path: '/order',
+                pageTitle: 'Orders',
+                orders: transformedOrders
+            })
+        })
 }
 
 exports.addItemToCart = (req, res, next) => {

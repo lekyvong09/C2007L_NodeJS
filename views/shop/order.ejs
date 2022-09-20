@@ -2,7 +2,29 @@
 </head>
     <%- include('../includes/navigation.ejs') %> 
 <body>
-    <main class="flex-grow-1 d-flex container">
+    <% if (orders.length <= 0) { %>
+        <h1 class="m-auto">No Order</h1>
+    <% } else { %> 
         <h1 class="m-auto">Order</h1>
-    </main>
+        <main class="flex-grow-1 d-flex container justify-content-center">
+            <ul class="d-flex align-items-center flex-column w-100" style="list-style: none;">
+                <% orders.forEach(order => { %> 
+                    <li style="margin-bottom: 2rem; padding:10px; border-radius:20px; min-width:50%; box-shadow: 0 2px 8px rgba(0,0,0, 0.26);">
+                        <div class="d-flex justify-content-between flex-sm-row flex-column">
+                            <p class="mx-4">Order - # <%= order._id %></p>
+                            <p class="mx-4">Total cost: <%= order.total %></p>
+                        </div>
+
+                        <ul>
+                            <% order.items.forEach(item => { %> 
+                                <li class="ms-4" style="font-size: 0.875rem;">
+                                (<%= item.price %> x <%= item.quantity %>)</li>
+                            <% }) %> 
+                        </ul>
+                    </li>
+                <% }); %> 
+            </ul>
+        </main>
+    <% } %> 
+    
     <%- include('../includes/end.ejs') %> 

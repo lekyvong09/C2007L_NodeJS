@@ -59,7 +59,7 @@ class User {
                         return {...product, quantity: cartItem.quantity};
                     });
                 }
-            )
+            );
     }
 
     deleteItemFromCart(productId) {
@@ -94,6 +94,14 @@ class User {
             );
         }).
         catch(err => console.log(err));
+    }
+
+
+    getOrders() {
+        const db = getDb();
+        return db.collection('orders')
+            .find({'user.userId': new mongodb.ObjectId(this._id)})
+            .toArray();
     }
 
 

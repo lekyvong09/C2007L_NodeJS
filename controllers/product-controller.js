@@ -1,5 +1,4 @@
 const Product = require("../models/product");
-const mongodb = require('mongodb');
 
 exports.showAddProductForm = (req, res, next) => {
     res.render('admin/add-product', {
@@ -21,7 +20,13 @@ exports.insertNewProduct = (req, res, next) => {
     const price = req.body.price;
     const description = req.body.description;
 
-    const product = new Product(null, title, price, description, imageUrl);
+    const product = new Product({
+        title: title,
+        price: price,
+        description: description,
+        imageUrl: imageUrl
+    });
+
     product.save()
         .then(result => res.redirect('/admin/list-product'))
         .catch(err => console.log(err));

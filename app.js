@@ -3,11 +3,10 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const exceptionController = require('./controllers/exception-controller');
 const multer = require('multer');
-const User = require('./models/user');
 
 const adminRoutes = require('./routes/admin');
 const shopRoutes = require('./routes/shop');
-const mongoConnect = require('./util/database').mongoConnect;
+const mongoose = require('mongoose');
 
 const app = express();
 
@@ -45,20 +44,24 @@ app.use('/css', express.static(path.join(__dirname, 'public', 'css')));
 
 app.use((req, res, next) => {
     /// simulate loading user info after logging in
-    User.findById("6325cde0d260b4803b4194c8")
-        .then(user => {
-            req.user = new User(user._id, user.name, user.email, user.cart);
-            next();
-        })
-        .catch(err => console.log(err));
+    // User.findById("6325cde0d260b4803b4194c8")
+    //     .then(user => {
+    //         req.user = new User(user._id, user.name, user.email, user.cart);
+    //         next();
+    //     })
+    //     .catch(err => console.log(err));
+    next();
 });
 
 app.use('/admin', adminRoutes);
 
-app.use(shopRoutes);
+// app.use(shopRoutes);
 
-app.use(exceptionController.handle404);
+// app.use(exceptionController.handle404);
 
-mongoConnect(() => {
-    app.listen(3001);
-});
+mongoose.connect('mongodb+srv://root:ab123456..@cluster0.pgeminn.mongodb.net/c2007_nodejs?retryWrites=true&w=majority')
+    .then(result => {
+        console.log('connected'); 
+        app.listen(3001);
+    })
+    .catch(err => console.log(err));

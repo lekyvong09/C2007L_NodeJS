@@ -34,7 +34,7 @@ exports.insertNewProduct = (req, res, next) => {
 
 
 exports.listProduct = (req, res, next) => {
-    Product.fetchAll()
+    Product.find()
         .then((result) => {
             // console.log(data);
             res.render('admin/list-product', {

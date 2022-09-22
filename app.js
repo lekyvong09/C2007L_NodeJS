@@ -55,9 +55,9 @@ app.use((req, res, next) => {
 
 app.use('/admin', adminRoutes);
 
-// app.use(shopRoutes);
+app.use(shopRoutes);
 
-// app.use(exceptionController.handle404);
+app.use(exceptionController.handle404);
 
 mongoose.connect('mongodb+srv://root:ab123456..@cluster0.pgeminn.mongodb.net/c2007_nodejs?retryWrites=true&w=majority')
     .then(result => {

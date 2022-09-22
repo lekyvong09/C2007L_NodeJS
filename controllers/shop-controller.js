@@ -46,21 +46,24 @@ exports.addItemToCart = (req, res, next) => {
         })
         .then(result => {
             console.log(result);
-            res.redirect('/');
+            res.redirect('/cart');
         })
         .catch(err => console.log(err));
 }
 
 exports.displayShoppingCart = (req, res, next) => {
     // console.log(req.user);
-    req.user.getCart()
-        .then(result => {
-            // console.log(result);
+    req.user
+        .populate('cart.items.productId')
+        .then(user => {
+            const products = user.cart.items;
+            console.log(products);
             res.render('shop/cart', {
                 pageTitle: 'cart',
-                cartItems: result
+                cartItems: products
             });
         });
+        
 }
 
 

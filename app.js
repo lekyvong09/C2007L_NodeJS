@@ -7,6 +7,7 @@ const multer = require('multer');
 const adminRoutes = require('./routes/admin');
 const shopRoutes = require('./routes/shop');
 const mongoose = require('mongoose');
+const User = require('./models/user');
 
 const app = express();
 
@@ -44,13 +45,12 @@ app.use('/css', express.static(path.join(__dirname, 'public', 'css')));
 
 app.use((req, res, next) => {
     /// simulate loading user info after logging in
-    // User.findById("6325cde0d260b4803b4194c8")
-    //     .then(user => {
-    //         req.user = new User(user._id, user.name, user.email, user.cart);
-    //         next();
-    //     })
-    //     .catch(err => console.log(err));
-    next();
+    User.findById("6325cde0d260b4803b4194c8")
+        .then(user => {
+            req.user = user;
+            next();
+        })
+        .catch(err => console.log(err));
 });
 
 app.use('/admin', adminRoutes);

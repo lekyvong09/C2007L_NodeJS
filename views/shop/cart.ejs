@@ -8,13 +8,13 @@
         <ul class="d-flex align-items-center">
             <% for (let item of cartItems) { %>
                 <li>
-                    <img class="product-image" src="/<%= item.imageUrl %>" alt="">
+                    <img class="product-image" src="/<%= item.productId.imageUrl %>" alt="">
                     <div class="product-info flex-grow-1">
-                        <a href="#" class="product-link"><%= item.title %></a>
+                        <a href="#" class="product-link"><%= item.productId.title %></a>
                         <p class="product-quantity"><%= item.quantity %></p>
                     </div>
                     <form class="d-flex align-items-center" action="/cart-delete-item" method="post">
-                        <input type="hidden" name="productId" value="<%= item._id %>">
+                        <input type="hidden" name="productId" value="<%= item.productId._id %>">
                         <button class="btn me-3" type="submit">
                             <i class="fas fa-trash text-danger fa-lg"></i>
                         </button>

@@ -72,14 +72,20 @@ exports.updateProduct = (req, res, next) => {
     const price = req.body.price;
     const description = req.body.description;
 
-    const product = new Product(productId, title, price, description, imageUrl);
-    product.save()
-        .then(() => res.redirect('/admin/list-product'))
+    Product.findById(productId)
+        .then(product => {
+            product.title = title;
+            product.price = price;
+            product.description = description;
+            product.imageUrl = imageUrl;
+            return product.save();
+        })
+        .then(result => res.redirect('/admin/list-product'))
         .catch(err => console.log(err));
 }
 
 exports.deleteProduct = (req, res, next) => {
-    Product.deleteById(req.body.productId)
+    Product.findByIdAndRemove(req.body.productId)
         .then(result => res.redirect('/admin/list-product'))
         .catch(err => console.log(err));
 }

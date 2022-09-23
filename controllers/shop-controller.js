@@ -1,5 +1,6 @@
 const Product = require('../models/product');
-
+const Order = require('../models/order');
+const mongoose = require('mongoose');
 
 exports.getProductList = (req, res, next) => {
     // console.log('in shop.js', adminData.products);
@@ -16,12 +17,36 @@ exports.getProductList = (req, res, next) => {
 }
 
 exports.checkout = (req, res, next) => {
-    req.user.checkout()
-        .then(result => res.redirect('/order'));
+    req.user
+        .populate('cart.items.productId')
+        .then(user => {
+            const order = new Order({
+                items: user.cart.items.map(item => {
+                    return {
+                        itemId: item._id,
+                        title: item.productId.title,
+                        price: item.productId.price,
+                        imageUrl: item.productId.imageUrl,
+                        quantity: item.quantity,
+                    }
+                }),
+                user: {
+                    userId: mongoose.Types.ObjectId(user._id)
+                }
+            });
+            return order.save();
+        })
+        .then(result => {
+            const user = req.user;
+            user.cart.items = [];
+            return user.save();
+        })
+        .then(result => res.redirect('/order'))
+        .catch(err => console.log(err));
 }
 
 exports.order = (req, res, next) => {
-    req.user.getOrders()
+    Order.find({'user.userId': mongoose.Types.ObjectId(req.user._id)})
         .then(orders => {
             const transformedOrders = orders.map(order => ({
                 _id: order._id,
@@ -34,7 +59,8 @@ exports.order = (req, res, next) => {
                 pageTitle: 'Orders',
                 orders: transformedOrders
             })
-        })
+        }).
+        catch(err => console.log(err));
 }
 
 exports.addItemToCart = (req, res, next) => {
@@ -69,7 +95,7 @@ exports.displayShoppingCart = (req, res, next) => {
 
 exports.deleteCartItem = (req, res, next) => {
     const productId = req.body.productId;
-    console.log(productId);
+    // console.log(productId);
     req.user.deleteItemFromCart(productId)
         .then(result => res.redirect('/cart'))
         .catch(err => console.log(err));
